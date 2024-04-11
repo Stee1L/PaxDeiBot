@@ -200,14 +200,19 @@ public class ItemsController : ControllerBase
         return parent;
     }
 
-    private List<Guid> DependenciesToList(LinkedListItem<Guid> item)
+    private List<Guid> DependenciesToList(LinkedListItem<Guid> item, long depth = -1L)
     {
         var list = new List<Guid>();
 
+        list.AddRange(item.Dependencies.Select(f => f.Value));
+
+        if (depth == 0)
+            return list;
+
         foreach (var dependency in item.Dependencies)
         {
-            list.Add(dependency.Value);
-            list.AddRange(DependenciesToList(dependency));
+            // list.Add(dependency.Value);
+            list.AddRange(DependenciesToList(dependency, --depth));
         }
 
         return list;
