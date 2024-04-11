@@ -57,9 +57,9 @@ public class ItemsController : ControllerBase
             .ItemComponents
             .AsNoTracking()
             .Where(v => v.ParentId == id)
-            .Join(_dbContext.Items, 
-                component => component.ChildId, 
-                item1 => item1.Id, 
+            .Join(_dbContext.Items,
+                component => component.ChildId,
+                item1 => item1.Id,
                 (_, item1) => item);
 
         return item.ToFullViewModel(children);
@@ -96,7 +96,7 @@ public class ItemsController : ControllerBase
 
         entity.Description = item.Description;
         entity.Name = item.Name;
-        
+
         _dbContext.Items.Update(entity);
         await _dbContext.SaveChangesAsync();
     }
@@ -106,7 +106,19 @@ public class ItemsController : ControllerBase
     [HttpDelete("{id:guid}")]
     public async Task DeleteItem(Guid id)
     {
+        var parents = GetParentsChain(new LinkedListItem<Guid>()
+        {
+            Value = id,
+            Dependencies = new List<LinkedListItem<Guid>>()
+        }, 1);
+
+        if (parents.Dependencies.Any())
+        {
+            throw new Exception("Сначала удали из рецепта другого предмета этот перед его удалением.");
+        }
+
         // Поиск по идентификатору
+
         var entity = await _dbContext.Items.AsNoTracking().FirstOrDefaultAsync(v => v.Id == id);
 
         if (entity == null)
@@ -120,23 +132,36 @@ public class ItemsController : ControllerBase
     }
 
     [HttpPost("{parent:guid}/child/{child:guid}")]
-    public Task<Guid> AppendChild(Guid parent, Guid child)
+    public Task<Guid> AppendChild(Guid parent, Guid child, [FromBody] ulong count)
     {
-        var allowStatusRequest = _dbContext.Items.Any(v => v.Id == parent) &&
-                                 _dbContext.Items.Any(f => f.Id == child) &&
-                                 _dbContext.ItemComponents.All(f => f.ParentId != child && f.ChildId != parent);
-        if (!allowStatusRequest)
-            throw new Exception("tyt sms");
+        if (count == 0)
+        {
+            throw new Exception("4e eblan, количество меньше нуля не бывает чел.. Чеееееееееееелллл...");
+        }
+
+
+        var childrenTree = GetChildrenTree(new LinkedListItem<Guid>() {Value = child});
+        var dependencies = DependenciesToList(childrenTree);
+
+        if (dependencies.Any(f => f == parent))
+            throw new Exception("Циклическая зависимость");
+
+
+        var parentTree = GetChildrenTree(new LinkedListItem<Guid>() {Value = parent});
+        var parentChildren = DependenciesToList(parentTree);
+
+        if (parentChildren.Any(f => f == child))
+        {
+            throw new Exception("Уже есть такой предмет в рецепте");
+        }
 
         var component = new ItemComponent()
         {
             ParentId = parent,
             Id = Guid.NewGuid(),
-            ChildId = child
+            ChildId = child,
+            Count = count
         };
-
-        //155e87ed-adb1-47e6-a6e8-6546da4dc5a6
-        
         _dbContext.ItemComponents.Add(component);
         _dbContext.SaveChanges();
         return Task.FromResult(component.Id);
@@ -148,10 +173,75 @@ public class ItemsController : ControllerBase
         var itemComponent = await _dbContext
             .ItemComponents
             .FirstOrDefaultAsync(f => f.ParentId == parent && f.ChildId == child);
-        
+
         if (itemComponent == null)
             throw new Exception("tyt sms");
 
         _dbContext.ItemComponents.Remove(itemComponent);
+    }
+
+    private LinkedListItem<Guid> GetChildrenTree(LinkedListItem<Guid> parent)
+    {
+        parent.Dependencies.AddRange(
+            _dbContext
+                .ItemComponents
+                .Where(v => v.ParentId == parent.Value)
+                .ToList()
+                .Select(f =>
+                    new LinkedListItem<Guid>()
+                    {
+                        Value = f.ChildId,
+                        Dependencies = new List<LinkedListItem<Guid>>()
+                    }));
+
+        foreach (var component in parent.Dependencies)
+            GetChildrenTree(component);
+
+        return parent;
+    }
+
+    private List<Guid> DependenciesToList(LinkedListItem<Guid> item)
+    {
+        var list = new List<Guid>();
+
+        foreach (var dependency in item.Dependencies)
+        {
+            list.Add(dependency.Value);
+            list.AddRange(DependenciesToList(dependency));
+        }
+
+        return list;
+    }
+
+    private Guid GetRoot(Guid rootForItem)
+    {
+        var item = _dbContext.ItemComponents.FirstOrDefault(f => f.ChildId == rootForItem);
+        return item == null
+            ? rootForItem
+            : GetRoot(item.ParentId);
+    }
+
+    private LinkedListItem<Guid> GetParentsChain(LinkedListItem<Guid> rootForItem, long depth = -1L)
+    {
+        rootForItem.Dependencies = _dbContext
+            .ItemComponents
+            .Where(f => f.ChildId == rootForItem.Value)
+            .ToList()
+            .Select(f =>
+                new LinkedListItem<Guid>()
+                {
+                    Value = f.ParentId,
+                    Dependencies = new List<LinkedListItem<Guid>>() {rootForItem}
+                }).ToList();
+
+        if (depth == 0)
+        {
+            return rootForItem;
+        }
+
+        foreach (var parent in rootForItem.Dependencies)
+            GetParentsChain(parent, --depth);
+
+        return rootForItem;
     }
 }
