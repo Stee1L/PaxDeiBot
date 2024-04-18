@@ -4,5 +4,5 @@ namespace PaxDeiBot.Services.TreeItemComponents;
 
 public interface ITreeItemComponents
 {
-    public Task<TreeItemViewModel> GetTree(Guid id);
+    public Task<TreeItemViewModel> GetTree(Guid id, uint multiplier);
 }

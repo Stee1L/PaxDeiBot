@@ -16,7 +16,7 @@ public class TreeViewController : ControllerBase
         _treeItemComponents = treeItemComponents;
     }
 
-    [HttpGet("{id:guid}/tree")]
-    public Task<TreeItemViewModel> GetTree(Guid id) => 
-        _treeItemComponents.GetTree(id);
+    [HttpGet("/tree/{id:guid}/count/{multiplier:int}")]
+    public Task<TreeItemViewModel> GetTree(Guid id, uint multiplier) => 
+        _treeItemComponents.GetTree(id, multiplier);
 }
