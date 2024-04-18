@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "harstEo1FcGO2FYlDByJBMGoKpPDV9XCKWfThJMV4i0sMtWOtZpHeeGueFvu7fZubM08qpAa0HA082yleKDqtQ==",
+  "dgSpecHash": "ZNhYumoSrhqCmY5BHOLjGcR2CWXVHHryWTcl3lWeNU9Y3GaN+rCJQ/CZ0Vc9JbMJTZCv5LiMYDQs1XMm+J8rKw==",
   "success": true,
-  "projectFilePath": "E:\\Repository\\PaxDeiBot\\PaxDeiBot.csproj",
+  "projectFilePath": "E:\\Репозитории\\PaxDeiBot\\PaxDeiBot.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\malai\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\malai\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

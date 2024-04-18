@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Repository\\PaxDeiBot\\PaxDeiBot.csproj": {}
+    "E:\\Репозитории\\PaxDeiBot\\PaxDeiBot.csproj": {}
   },
   "projects": {
-    "E:\\Repository\\PaxDeiBot\\PaxDeiBot.csproj": {
+    "E:\\Репозитории\\PaxDeiBot\\PaxDeiBot.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Repository\\PaxDeiBot\\PaxDeiBot.csproj",
+        "projectUniqueName": "E:\\Репозитории\\PaxDeiBot\\PaxDeiBot.csproj",
         "projectName": "PaxDeiBot",
-        "projectPath": "E:\\Repository\\PaxDeiBot\\PaxDeiBot.csproj",
+        "projectPath": "E:\\Репозитории\\PaxDeiBot\\PaxDeiBot.csproj",
         "packagesPath": "C:\\Users\\malai\\.nuget\\packages\\",
-        "outputPath": "E:\\Repository\\PaxDeiBot\\obj\\",
+        "outputPath": "E:\\Репозитории\\PaxDeiBot\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
