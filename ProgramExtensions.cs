@@ -2,6 +2,7 @@
 using Microsoft.OpenApi.Models;
 using PaxDeiBot.Data;
 using PaxDeiBot.Models;
+using PaxDeiBot.Services.TreeItemComponents;
 
 namespace PaxDeiBot;
 
@@ -67,6 +68,9 @@ public static class ProgramExtensions
         services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
+
+        services.AddTransient<ITreeItemComponents, TreeItemComponents>();
+        
         services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo
