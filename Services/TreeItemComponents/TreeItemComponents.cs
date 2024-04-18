@@ -12,7 +12,7 @@ public class TreeItemComponents : ITreeItemComponents
         _context = context;
     }
 
-    public async Task<TreeItemViewModel> GetTree(Guid id, uint countMultiplier)
+    public async Task<TreeItemViewModel> GetTree(Guid id, long countMultiplier)
     {
         var item = _context.Items.FirstOrDefault(f => f.Id == id)
                    ?? throw new Exception("Не найден указанный предмет");
@@ -24,7 +24,7 @@ public class TreeItemComponents : ITreeItemComponents
         return tree;
     }
 
-    public async Task<List<PrimalComponentViewModel>> GetPrimalComponents(Guid id, uint multiplier)
+    public async Task<List<PrimalComponentViewModel>> GetPrimalComponents(Guid id, long multiplier)
     {
         var tree = await GetTree(id, multiplier);
 
@@ -34,7 +34,7 @@ public class TreeItemComponents : ITreeItemComponents
             .ToList();
     }
 
-    private async Task FillTree(TreeItemViewModel model, uint countMultiplier)
+    private async Task FillTree(TreeItemViewModel model, long countMultiplier)
     {
         var children = _context.Items.Join(_context.ItemComponents.Where(f => f.ParentId == model.Id), item => item.Id,
             component => component.ChildId, (item, component) => new {item, component.Count});
@@ -42,7 +42,7 @@ public class TreeItemComponents : ITreeItemComponents
 
         foreach (var component in model.Components)
         {
-            await FillTree(component, countMultiplier);
+            await FillTree(component, countMultiplier*component.Count);
         }
     }
 }

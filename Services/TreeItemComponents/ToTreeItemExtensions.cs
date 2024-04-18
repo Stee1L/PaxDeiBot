@@ -5,7 +5,7 @@ namespace PaxDeiBot.Services.TreeItemComponents;
 
 public static class ToTreeItemExtensions
 {
-    public static TreeItemViewModel ToTreeItem(this Item item, ulong count, uint countMultiplier) =>
+    public static TreeItemViewModel ToTreeItem(this Item item, long count, long countMultiplier) =>
         new()
         {
             Name = item.Name,

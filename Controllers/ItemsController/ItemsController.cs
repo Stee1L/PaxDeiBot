@@ -132,7 +132,7 @@ public class ItemsController : ControllerBase
     }
 
     [HttpPost("{parent:guid}/child/{child:guid}")]
-    public Task<Guid> AppendChild(Guid parent, Guid child, [FromBody] ulong count)
+    public Task<Guid> AppendChild(Guid parent, Guid child, [FromBody] long count)
     {
         if (count == 0)
         {
