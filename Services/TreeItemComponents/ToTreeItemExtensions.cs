@@ -14,4 +14,32 @@ public static class ToTreeItemExtensions
             Count = count * countMultiplier,
             Components = new List<TreeItemViewModel>()
         };
+
+    public static List<TreeItemViewModel> SelectPrimal(this TreeItemViewModel tree)
+    {
+        var list = new List<TreeItemViewModel>();
+
+        if (tree.Components.Any())
+        {
+            foreach (var component in tree.Components)
+            {
+                list.AddRange(component.SelectPrimal());
+            }
+        }
+        else
+        {
+            list.Add(tree);
+        }
+        
+        return list;
+    }
+
+    public static PrimalComponentViewModel ToPrimalComponentViewModel(this TreeItemViewModel model) =>
+        new PrimalComponentViewModel()
+        {
+            Id = model.Id,
+            Name = model.Name,
+            Description = model.Description,
+            Count = model.Count
+        };
 }

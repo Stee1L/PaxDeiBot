@@ -20,8 +20,18 @@ public class TreeItemComponents : ITreeItemComponents
         var tree = item.ToTreeItem(1, countMultiplier);
 
         await FillTree(tree, countMultiplier);
-        
+
         return tree;
+    }
+
+    public async Task<List<PrimalComponentViewModel>> GetPrimalComponents(Guid id, uint multiplier)
+    {
+        var tree = await GetTree(id, multiplier);
+
+        return tree
+            .SelectPrimal()
+            .Select(f => f.ToPrimalComponentViewModel())
+            .ToList();
     }
 
     private async Task FillTree(TreeItemViewModel model, uint countMultiplier)

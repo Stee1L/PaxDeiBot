@@ -19,4 +19,8 @@ public class TreeViewController : ControllerBase
     [HttpGet("/tree/{id:guid}/count/{multiplier:int}")]
     public Task<TreeItemViewModel> GetTree(Guid id, uint multiplier) => 
         _treeItemComponents.GetTree(id, multiplier);
+    
+    [HttpGet("/tree/{id:guid}/count/{multiplier:int}/primal")]
+    public Task<List<PrimalComponentViewModel>> GetPrimal(Guid id, uint multiplier) => 
+        _treeItemComponents.GetPrimalComponents(id, multiplier);
 }
