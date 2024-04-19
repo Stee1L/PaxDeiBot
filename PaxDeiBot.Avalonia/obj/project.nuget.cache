@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Y8ZxGcoBor6Yrair75sHI82WnhPaxics5FhFi0x+dmTuZOXLiuEgiap+YK/CFAN9Df94Yw8OQIrN4Fuq1eZAcA==",
+  "dgSpecHash": "uDLSp+pv5FHflS2cNqFtcqdtX7fZnE67JbeCBB6WP7SeogJDLkKXiV6jBr6rNo8UziHgXm5/YA7d1hhx8x6zQQ==",
   "success": true,
   "projectFilePath": "E:\\Репозитории\\PaxDeiBot\\PaxDeiBot.Avalonia\\PaxDeiBot.Avalonia.csproj",
   "expectedPackageFiles": [
@@ -37,6 +37,7 @@
     "C:\\Users\\malai\\.nuget\\packages\\microsoft.netcore.platforms\\2.1.2\\microsoft.netcore.platforms.2.1.2.nupkg.sha512",
     "C:\\Users\\malai\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\malai\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "C:\\Users\\malai\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\malai\\.nuget\\packages\\reactiveui\\18.3.1\\reactiveui.18.3.1.nupkg.sha512",
     "C:\\Users\\malai\\.nuget\\packages\\skiasharp\\2.88.3\\skiasharp.2.88.3.nupkg.sha512",
     "C:\\Users\\malai\\.nuget\\packages\\skiasharp.nativeassets.linux\\2.88.3\\skiasharp.nativeassets.linux.2.88.3.nupkg.sha512",

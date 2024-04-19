@@ -24,4 +24,9 @@
         <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.2"/>
         <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.2"/>
     </ItemGroup>
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\PaxDeiBot.WebApi.Client\PaxDeiBot.WebApi.Client.csproj" />
+    </ItemGroup>
 </Project>
