@@ -42,7 +42,7 @@ public class TreeItemComponents : ITreeItemComponents
 
         foreach (var component in model.Components)
         {
-            await FillTree(component, countMultiplier*component.Count);
+            await FillTree(component, component.Count);
         }
     }
 }
