@@ -10,12 +10,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("PaxDeiBot")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("AvaloniaApplication1")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+75ff870fc5e0a51f99aaeedf3223447f79f09ebe")]
-[assembly: System.Reflection.AssemblyProductAttribute("PaxDeiBot")]
-[assembly: System.Reflection.AssemblyTitleAttribute("PaxDeiBot")]
+[assembly: System.Reflection.AssemblyProductAttribute("AvaloniaApplication1")]
+[assembly: System.Reflection.AssemblyTitleAttribute("AvaloniaApplication1")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 
 // Создано классом WriteCodeFragment MSBuild.

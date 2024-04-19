@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaxDeiBot", "Bot.WebApi\PaxDeiBot.csproj", "{38B3C178-AEAE-49C9-A381-3D485F85BF4C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaxDeiBot.Avalonia", "PaxDeiBot.Avalonia\PaxDeiBot.Avalonia.csproj", "{1EF097FA-D60C-4132-BA40-FD1C6AD60A64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaxDeiBot.WebApi.Client", "PaxDeiBot.WebApi.Client\PaxDeiBot.WebApi.Client.csproj", "{9C11E336-3DCE-4175-8A5E-AFCA085C9019}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{38B3C178-AEAE-49C9-A381-3D485F85BF4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38B3C178-AEAE-49C9-A381-3D485F85BF4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38B3C178-AEAE-49C9-A381-3D485F85BF4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EF097FA-D60C-4132-BA40-FD1C6AD60A64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EF097FA-D60C-4132-BA40-FD1C6AD60A64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EF097FA-D60C-4132-BA40-FD1C6AD60A64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EF097FA-D60C-4132-BA40-FD1C6AD60A64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C11E336-3DCE-4175-8A5E-AFCA085C9019}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C11E336-3DCE-4175-8A5E-AFCA085C9019}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C11E336-3DCE-4175-8A5E-AFCA085C9019}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C11E336-3DCE-4175-8A5E-AFCA085C9019}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
