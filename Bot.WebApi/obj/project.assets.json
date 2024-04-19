@@ -3983,11 +3983,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Репозитории\\PaxDeiBot\\PaxDeiBot.csproj",
+      "projectUniqueName": "E:\\Репозитории\\PaxDeiBot\\Bot.WebApi\\PaxDeiBot.csproj",
       "projectName": "PaxDeiBot",
-      "projectPath": "E:\\Репозитории\\PaxDeiBot\\PaxDeiBot.csproj",
+      "projectPath": "E:\\Репозитории\\PaxDeiBot\\Bot.WebApi\\PaxDeiBot.csproj",
       "packagesPath": "C:\\Users\\malai\\.nuget\\packages\\",
-      "outputPath": "E:\\Репозитории\\PaxDeiBot\\obj\\",
+      "outputPath": "E:\\Репозитории\\PaxDeiBot\\Bot.WebApi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
