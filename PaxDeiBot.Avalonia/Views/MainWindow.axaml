@@ -3,18 +3,57 @@
         xmlns:vm="using:AvaloniaApplication1.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="clr-namespace:AvaloniaApplication1.Models"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="AvaloniaApplication1.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="PaxDeiBot.Avalonia">
-
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel />
     </Design.DataContext>
+    
+    <Window.Resources>
+        <DataTemplate x:DataType="models:ItemShortModel" x:Key="ShortModelTemplate">
+            <Grid ColumnDefinitions="*">
+                <Button Content="{Binding Name}"/>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:DataType="models:ItemFullModel">
+            <Grid RowDefinitions="*,*,*">
+                <Grid Grid.Row="0" ColumnDefinitions="*, *">
+                    <TextBlock Text="Название предмета:" HorizontalAlignment="Right"/>
+                    <TextBox Text="{Binding Name}" HorizontalAlignment="Right"/>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <TextBlock Text="Необходимо для создания:"/>
+                    <ItemsControl ItemsSource="{Binding Parents}" Template="{StaticResource ShortModelTemplate}"/>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <TextBlock Text="Создаётся из"/>
+                    <ItemsControl ItemsSource="{Binding Children}" Template="{StaticResource ShortModelTemplate}"/>
+                </Grid>
+                <Grid Grid.Row="2">
+                    
+                </Grid>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <ItemsControl Grid.Column="0">
+            
+        </ItemsControl>
+        <SplitView Grid.Column="1" />
+        <Grid Grid.Column="2">
 
+        </Grid>
+    </Grid>
 </Window>
