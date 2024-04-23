@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "dgSpecHash": "XsEO/gGwRV3Lk3njL7RCpdl2Co8GnK2+BVYduv4pNBp234GC8jVdK0i/Gi823bsN5cgSyg8MvmMIjbumThGW0w==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\delic\\Desktop\\Dev\\Работа\\PaxDeiBot\\DiscordBotApp\\PaxDeiBotApp.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\delic\\.nuget\\packages\\discord.net\\3.14.1\\discord.net.3.14.1.nupkg.sha512",
+    "C:\\Users\\delic\\.nuget\\packages\\discord.net.commands\\3.14.1\\discord.net.commands.3.14.1.nupkg.sha512",
+    "C:\\Users\\delic\\.nuget\\packages\\discord.net.core\\3.14.1\\discord.net.core.3.14.1.nupkg.sha512",
+    "C:\\Users\\delic\\.nuget\\packages\\discord.net.interactions\\3.14.1\\discord.net.interactions.3.14.1.nupkg.sha512",
+    "C:\\Users\\delic\\.nuget\\packages\\discord.net.rest\\3.14.1\\discord.net.rest.3.14.1.nupkg.sha512",
+    "C:\\Users\\delic\\.nuget\\packages\\discord.net.webhook\\3.14.1\\discord.net.webhook.3.14.1.nupkg.sha512",
+    "C:\\Users\\delic\\.nuget\\packages\\discord.net.websocket\\3.14.1\\discord.net.websocket.3.14.1.nupkg.sha512",
+    "C:\\Users\\delic\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
+    "C:\\Users\\delic\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512",
+    "C:\\Users\\delic\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\delic\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
+    "C:\\Users\\delic\\.nuget\\packages\\system.interactive.async\\6.0.1\\system.interactive.async.6.0.1.nupkg.sha512",
+    "C:\\Users\\delic\\.nuget\\packages\\system.linq.async\\6.0.1\\system.linq.async.6.0.1.nupkg.sha512",
+    "C:\\Users\\delic\\.nuget\\packages\\system.reactive\\6.0.0\\system.reactive.6.0.0.nupkg.sha512",
+    "C:\\Users\\delic\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.valuetuple\\4.5.0\\system.valuetuple.4.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}
