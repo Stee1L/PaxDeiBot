@@ -12,8 +12,8 @@ using PaxDeiBot.Data;
 namespace PaxDeiBot.Migrations
 {
     [DbContext(typeof(ItemDbContext))]
-    [Migration("20240411072307_ComponentsCounter")]
-    partial class ComponentsCounter
+    [Migration("20240418073214_uLongToLongMigration")]
+    partial class uLongToLongMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,8 +53,8 @@ namespace PaxDeiBot.Migrations
                     b.Property<Guid>("ChildId")
                         .HasColumnType("uuid");
 
-                    b.Property<decimal>("Count")
-                        .HasColumnType("numeric(20,0)");
+                    b.Property<long>("Count")
+                        .HasColumnType("bigint");
 
                     b.Property<Guid>("ParentId")
                         .HasColumnType("uuid");

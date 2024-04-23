@@ -5,25 +5,30 @@
 namespace PaxDeiBot.Migrations
 {
     /// <inheritdoc />
-    public partial class ComponentsCounter : Migration
+    public partial class uLongToLongMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<decimal>(
+            migrationBuilder.AlterColumn<long>(
                 name: "Count",
                 table: "ItemComponents",
-                type: "numeric(20,0)",
+                type: "bigint",
                 nullable: false,
-                defaultValue: 0m);
+                oldClrType: typeof(decimal),
+                oldType: "numeric(20,0)");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
+            migrationBuilder.AlterColumn<decimal>(
                 name: "Count",
-                table: "ItemComponents");
+                table: "ItemComponents",
+                type: "numeric(20,0)",
+                nullable: false,
+                oldClrType: typeof(long),
+                oldType: "bigint");
         }
     }
 }

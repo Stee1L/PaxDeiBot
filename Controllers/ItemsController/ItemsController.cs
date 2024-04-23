@@ -60,7 +60,7 @@ public class ItemsController : ControllerBase
             .Join(_dbContext.Items,
                 component => component.ChildId,
                 item1 => item1.Id,
-                (_, item1) => item);
+                (_, item1) => item1);
 
         return item.ToFullViewModel(children);
     }
@@ -132,11 +132,11 @@ public class ItemsController : ControllerBase
     }
 
     [HttpPost("{parent:guid}/child/{child:guid}")]
-    public Task<Guid> AppendChild(Guid parent, Guid child, [FromBody] ulong count)
+    public Task<Guid> AppendChild(Guid parent, Guid child, [FromBody] long count)
     {
         if (count == 0)
         {
-            throw new Exception("4e eblan, количество меньше нуля не бывает чел.. Чеееееееееееелллл...");
+            throw new Exception("Невозможно добавить 0 компонентов");
         }
 
 

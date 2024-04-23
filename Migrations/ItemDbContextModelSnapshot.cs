@@ -50,8 +50,8 @@ namespace PaxDeiBot.Migrations
                     b.Property<Guid>("ChildId")
                         .HasColumnType("uuid");
 
-                    b.Property<decimal>("Count")
-                        .HasColumnType("numeric(20,0)");
+                    b.Property<long>("Count")
+                        .HasColumnType("bigint");
 
                     b.Property<Guid>("ParentId")
                         .HasColumnType("uuid");
