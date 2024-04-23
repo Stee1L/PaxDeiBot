@@ -1,4 +1,4 @@
-﻿using PaxDeiBot.Controllers.ViewModels;
+using PaxDeiBot.Controllers.ViewModels;
 
 namespace PaxDeiBot.Models;
 

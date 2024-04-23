@@ -1,4 +1,4 @@
-﻿namespace PaxDeiBot.Models;
+namespace PaxDeiBot.Models;
 
 public class ItemComponent
 {

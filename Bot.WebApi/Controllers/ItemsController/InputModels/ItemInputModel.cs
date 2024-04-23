@@ -1,4 +1,4 @@
-﻿namespace PaxDeiBot.Controllers.InputModels;
+namespace PaxDeiBot.Controllers.InputModels;
 
 public class ItemInputModel
 {

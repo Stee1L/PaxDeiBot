@@ -1,4 +1,4 @@
-﻿namespace PaxDeiBot.Controllers.ViewModels;
+namespace PaxDeiBot.Controllers.ViewModels;
 
 public class ItemFullViewModel
 {

@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaxDeiBot.Avalonia", "PaxDe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaxDeiBot.WebApi.Client", "PaxDeiBot.WebApi.Client\PaxDeiBot.WebApi.Client.csproj", "{9C11E336-3DCE-4175-8A5E-AFCA085C9019}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaxDeiBotApp", "DiscordBotApp\PaxDeiBotApp.csproj", "{9AA8A5C7-6DC2-42C9-A823-947BE7664F17}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{9C11E336-3DCE-4175-8A5E-AFCA085C9019}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C11E336-3DCE-4175-8A5E-AFCA085C9019}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C11E336-3DCE-4175-8A5E-AFCA085C9019}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AA8A5C7-6DC2-42C9-A823-947BE7664F17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AA8A5C7-6DC2-42C9-A823-947BE7664F17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AA8A5C7-6DC2-42C9-A823-947BE7664F17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AA8A5C7-6DC2-42C9-A823-947BE7664F17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

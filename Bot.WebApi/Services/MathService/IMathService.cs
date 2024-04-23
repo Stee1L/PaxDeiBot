@@ -1,4 +1,4 @@
-﻿// namespace PaxDeiBot.Services;
+// namespace PaxDeiBot.Services;
 //
 // public interface IMathService
 // {

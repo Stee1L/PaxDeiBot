@@ -1,4 +1,4 @@
-﻿namespace PaxDeiBot.Services.TreeItemComponents.ViewModels;
+namespace PaxDeiBot.Services.TreeItemComponents.ViewModels;
 
 public class TreeItemViewModel
 {
