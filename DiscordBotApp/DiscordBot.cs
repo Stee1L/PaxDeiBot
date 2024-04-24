@@ -58,9 +58,25 @@ public class DiscordBot
         {
             "!getData" => GetFullModelDataHandler(message.Channel, msg),
             "!getTreeData" => GetTreeDataHandler(message.Channel, msg),
+            "!getPrimalData" => GetPrimalDataHandler(message.Channel, msg),
             "!findByName" => FindByNameHandler(message.Channel, msg),
             _ => Task.CompletedTask
         };
+    }
+
+    private async Task GetPrimalDataHandler(ISocketMessageChannel messageChannel, string[] msg)
+    {
+        if (!Guid.TryParse(msg[1], out var itemId))
+            return;
+
+        var item = await _apiClient.ItemsGETAsync(itemId);
+        
+        var primalComponents = await _apiClient.PrimalAsync(itemId, 1);
+
+        var message = primalComponents.Aggregate($"Для предмета **{item.Name}** необходимо добыть:\n",
+            (s, model) => s + $"{model.Name} ({model.Count} шт.)\n");
+
+        await messageChannel.SendMessageAsync(message);
     }
 
     private async Task GetFullModelDataHandler(ISocketMessageChannel messageChannel, string[] msg)
