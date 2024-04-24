@@ -12,14 +12,15 @@ namespace PaxDeiBotApp;
 public class DiscordBot
 {
     private readonly PaxDeiBotClient _apiClient;
+    private readonly string token;
     private DiscordSocketClient _client;
 
     public DiscordBot(IConfiguration config)
     {
         _apiClient = new PaxDeiBotClient(config["ApiURL"], new HttpClient());
+        token = config["Token"];
     }
-
-    const string token = "MTIzMjAxNTQ2NzM3MjA4OTQzNw.G3g2W6.iDE12bmize0azVo3j_9TKv1ZP0tbB96iMMFw84";
+    
     public async Task MainAsync()
     {
         var config = new DiscordSocketConfig
@@ -27,69 +28,80 @@ public class DiscordBot
             AlwaysDownloadUsers = false,
             GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.MessageContent
         };
-        
+
         _client = new DiscordSocketClient(config);
         _client.Log += LogAsync;
         _client.MessageReceived += MessageReceivedAsync;
-        
+
         await _client.LoginAsync(TokenType.Bot, token);
         await _client.StartAsync();
 
         await Task.Delay(-1);
     }
+
     private Task LogAsync(LogMessage message)
     {
         Console.WriteLine(message.ToString());
         return Task.CompletedTask;
     }
-    private async Task MessageReceivedAsync(SocketMessage message)
-    {
-        if (message.Content.Contains("!getData"))
-        {
-            var itemName = message.Content.Replace("!getData ", "");
-            if (string.IsNullOrEmpty(itemName)) await message.Channel.SendMessageAsync("Укажите название предмета после команды !getData");
-            // var shortItemApi = "http://localhost:5000/api/v1/Items/components";
-            // var shortItemData = _apiClient.ComponentsAsync();
-            // if (string.IsNullOrEmpty(shortItemData))
-            // {
-            //     await message.Channel.SendMessageAsync("Не удалось получить список предметов!");
-            //     return;
-            // }
 
-            var itemId = Guid.Parse(itemName);
-            
-            var items = await _apiClient.ComponentsAsync();
-            var selectedItem =
-                items.FirstOrDefault(item => item.Id == itemId);
-    
-            if (selectedItem == null)
-            {
-                await message.Channel.SendMessageAsync($"Предмет с названием {itemName} не найден!");
-                return;
-            }
-    
-            // var fullItemApi = $"http://localhost:5000/api/v1/Items/{selectedItem.Id}";
-            // var fullItemData = await GetDataFromWebApi(fullItemApi);
-            //
-            // if (string.IsNullOrEmpty(fullItemData))
-            // {
-            //     await message.Channel.SendMessageAsync($"Не удалось получить данные по предмету {itemName}");
-            //     return;
-            // }
-            
-            var fullItem = await _apiClient.CountAsync(selectedItem.Id, 1);
-            
-            var messageText = $"**{fullItem.Name}**\n" + 
-                                    $"{fullItem.Description}\n";
-    
-            if (fullItem.Components.Any())
-            {
-                messageText += "Components:\n" + CompleteTree(0, fullItem, 1);
-                
-            }
-    
-            await message.Channel.SendMessageAsync(messageText);
+    private Task MessageReceivedAsync(SocketMessage message)
+    {
+        var msg = message.Content.Split(" ");
+
+        if (msg.Length < 2 && msg[0] != "!help")
+        {
+            return Task.CompletedTask;
         }
+
+        return msg[0] switch
+        {
+            "!getData" => GetFullModelDataHandler(message.Channel, msg),
+            "!getTreeData" => GetTreeDataHandler(message.Channel, msg),
+            "!findByName" => FindByNameHandler(message.Channel, msg),
+            _ => Task.CompletedTask
+        };
+    }
+
+    private async Task GetFullModelDataHandler(ISocketMessageChannel messageChannel, string[] msg)
+    {
+        if (!Guid.TryParse(msg[1], out var itemId))
+            return;
+
+        var item = await _apiClient.DepthAsync(itemId, 0);
+
+        var message = $"**{item.Name}**\n" 
+                      + (item.Components.Any() ? item.Components.Aggregate("Состоит из:\n", (s, model) => s + $"{model.Name}, ", s => s[..^2]) + "\n" : string.Empty)
+                      + (item.NeedForParents.Any() ? item.NeedForParents.Aggregate("Необходим для:\n", (s, model) => s + $"{model.Name}, ", s => s[..^2]) : string.Empty);
+        await messageChannel.SendMessageAsync(message);
+    }
+
+    private async Task FindByNameHandler(ISocketMessageChannel messageChannel, string[] messageContent)
+    {
+        var items = await _apiClient.PageAsync();
+        var models = items.Where(f => f.Name.Contains(messageContent[1], StringComparison.OrdinalIgnoreCase));
+        await messageChannel.SendMessageAsync(models.Aggregate(string.Empty, (s, model) => s+=$"{model.Name} = {model.Id:N}\n"));
+    }
+
+    public async Task GetTreeDataHandler(ISocketMessageChannel messageChannel, string[] messageContent)
+    {
+
+        if (!Guid.TryParse(messageContent[1], out var itemId))
+        {
+            await messageChannel.SendMessageAsync("Указанный параметр не является идентификатором\n" +
+                                                  "Попробуйте отправить сообщение в формате !getData <GUID>.");
+            return;
+        }
+
+        var fullItem = await _apiClient.CountAsync(itemId, 1);
+
+        var messageText = $"**{fullItem.Name}**\n" +
+                          $"{fullItem.Description}\n";
+
+        if (fullItem.Components.Any())
+            messageText += "Components:\n" + CompleteTree(0, fullItem, 1);
+
+        await messageChannel.SendMessageAsync(messageText);
     }
 
     public string CompleteTree(int tabs, TreeItemViewModel model, int depth)
@@ -105,8 +117,7 @@ public class DiscordBot
 
         foreach (var component in model.Components)
             msg += CompleteTree(tabs + 1, component, depth - 1);
-        
+
         return msg;
     }
-
 }

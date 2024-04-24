@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.ComponentModel.Design;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using PaxDeiBot.Controllers.InputModels;
 using PaxDeiBot.Controllers.ViewModels;
@@ -22,7 +23,7 @@ public class ItemsController : ControllerBase
     /// Получаем все предметы из базы данных и передаем их пользователю через API
     /// </summary>
     /// <returns>Предметы из БД</returns>
-    [HttpGet("components")]
+    [HttpGet("page")]
     public Task<List<ItemShortViewModel>> GetItemsWithComponents() =>
         _dbContext
             .Items
@@ -60,7 +61,7 @@ public class ItemsController : ControllerBase
             .Join(_dbContext.Items,
                 component => component.ChildId,
                 item1 => item1.Id,
-                (_, item1) => item);
+                (_, item1) => item1);
 
         return item.ToFullViewModel(children);
     }
@@ -140,14 +141,14 @@ public class ItemsController : ControllerBase
         }
 
 
-        var childrenTree = GetChildrenTree(new LinkedListItem<Guid>() {Value = child});
+        var childrenTree = GetChildrenTreeChain(new LinkedListItem<Guid>() {Value = child});
         var dependencies = DependenciesToList(childrenTree);
 
         if (dependencies.Any(f => f == parent))
             throw new Exception("Циклическая зависимость");
 
 
-        var parentTree = GetChildrenTree(new LinkedListItem<Guid>() {Value = parent});
+        var parentTree = GetChildrenTreeChain(new LinkedListItem<Guid>() {Value = parent});
         var parentChildren = DependenciesToList(parentTree);
 
         if (parentChildren.Any(f => f == child))
@@ -180,7 +181,64 @@ public class ItemsController : ControllerBase
         _dbContext.ItemComponents.Remove(itemComponent);
     }
 
-    private LinkedListItem<Guid> GetChildrenTree(LinkedListItem<Guid> parent)
+    [HttpGet("dependencies/{id:guid}/depth/{depth:int}")]
+    public Task<DependenciesModel> GetDependencies(Guid id, int depth)
+    {
+        var item = _dbContext.Items.FirstOrDefault(f => f.Id == id);
+        var children = GetChildrenTreeChain(new LinkedListItem<Guid>()
+        {
+            Value = id
+        });
+        var parents = GetParentsChain(new LinkedListItem<Guid>()
+        {
+            Value = id
+        });
+
+        var listIds = DependenciesToList(parents).Concat(DependenciesToList(children)).ToList();
+
+        var items = _dbContext.Items.Where(f => listIds.Any(v => v == f.Id)).ToList();
+
+        return Task.FromResult(MakeDependencies(item, parents.Dependencies, children.Dependencies, items));
+    }
+
+    private DependenciesModel MakeDependencies(Item item, List<LinkedListItem<Guid>> parents,
+        List<LinkedListItem<Guid>> children,
+        List<Item> items)
+    {
+        var model = new DependenciesModel()
+        {
+            Id = item.Id,
+            Description = item.Description,
+            Name = item.Name,
+            NeedForParents = new List<DependenciesModel>(),
+            Components = new List<DependenciesModel>()
+        };
+
+        foreach (var parent in parents)
+        {
+            item = items.FirstOrDefault(v => v.Id == parent.Value);
+            if (item == null)
+                continue;
+            model.NeedForParents.Add(MakeDependencies(item, parent.Dependencies, new List<LinkedListItem<Guid>>(),
+                items));
+        }
+
+        foreach (var child in children)
+        {
+            item = items.FirstOrDefault(v => v.Id == child.Value);
+            if (item == null)
+                continue;
+
+            model.Components.Add(MakeDependencies(item,
+                new List<LinkedListItem<Guid>>(),
+                child.Dependencies,
+                items));
+        }
+
+        return model;
+    }
+
+    private LinkedListItem<Guid> GetChildrenTreeChain(LinkedListItem<Guid> parent)
     {
         parent.Dependencies.AddRange(
             _dbContext
@@ -195,9 +253,33 @@ public class ItemsController : ControllerBase
                     }));
 
         foreach (var component in parent.Dependencies)
-            GetChildrenTree(component);
+            GetChildrenTreeChain(component);
 
         return parent;
+    }
+
+    private LinkedListItem<Guid> GetParentsChain(LinkedListItem<Guid> rootForItem, long depth = -1L)
+    {
+        rootForItem.Dependencies = _dbContext
+            .ItemComponents
+            .Where(f => f.ChildId == rootForItem.Value)
+            .ToList()
+            .Select(f =>
+                new LinkedListItem<Guid>()
+                {
+                    Value = f.ParentId,
+                    Dependencies = new List<LinkedListItem<Guid>>() {rootForItem}
+                }).ToList();
+
+        if (depth == 0)
+        {
+            return rootForItem;
+        }
+
+        foreach (var parent in rootForItem.Dependencies)
+            GetParentsChain(parent, --depth);
+
+        return rootForItem;
     }
 
     private List<Guid> DependenciesToList(LinkedListItem<Guid> item, long depth = -1L)
@@ -224,29 +306,5 @@ public class ItemsController : ControllerBase
         return item == null
             ? rootForItem
             : GetRoot(item.ParentId);
-    }
-
-    private LinkedListItem<Guid> GetParentsChain(LinkedListItem<Guid> rootForItem, long depth = -1L)
-    {
-        rootForItem.Dependencies = _dbContext
-            .ItemComponents
-            .Where(f => f.ChildId == rootForItem.Value)
-            .ToList()
-            .Select(f =>
-                new LinkedListItem<Guid>()
-                {
-                    Value = f.ParentId,
-                    Dependencies = new List<LinkedListItem<Guid>>() {rootForItem}
-                }).ToList();
-
-        if (depth == 0)
-        {
-            return rootForItem;
-        }
-
-        foreach (var parent in rootForItem.Dependencies)
-            GetParentsChain(parent, --depth);
-
-        return rootForItem;
     }
 }
