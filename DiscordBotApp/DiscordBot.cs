@@ -17,7 +17,7 @@ public class DiscordBot
         _apiClient = new PaxDeiBotClient(config["ApiURL"], new HttpClient());
     }
 
-    const string token = "MTIzMjAxNTQ2NzM3MjA4OTQzNw.GoD7n8.OsUpdoBcaAeWDw2vzL3EwjYfUYa5kEJfCZj9Co";
+    const string token = "MTIzMjAxNTQ2NzM3MjA4OTQzNw.Gsw5gV.IoZQuNAdifhOJ86rnDHHWTm3an3cfDfkUD1Y8w";
     public async Task MainAsync()
     {
         var config = new DiscordSocketConfig
@@ -53,10 +53,12 @@ public class DiscordBot
             //     await message.Channel.SendMessageAsync("Не удалось получить список предметов!");
             //     return;
             // }
-    
+
+            var itemId = Guid.Parse(itemName);
+            
             var items = await _apiClient.ComponentsAsync();
             var selectedItem =
-                items.FirstOrDefault(item => item.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
+                items.FirstOrDefault(item => item.Id == itemId);
     
             if (selectedItem == null)
             {
@@ -73,42 +75,36 @@ public class DiscordBot
             //     return;
             // }
             
-            var fullItem = await _apiClient.ItemsGETAsync(selectedItem.Id);
+            var fullItem = await _apiClient.CountAsync(selectedItem.Id, 1);
             
             var messageText = $"**{fullItem.Name}**\n" + 
                                     $"{fullItem.Description}\n";
     
             if (fullItem.Components.Any())
             {
-                messageText += "Components:\n";
-                foreach (var component in fullItem.Components)
-                {
-                    messageText += $"- {component.Name} ()\n";
-                }
+                messageText += "Components:\n" + CompleteTree(messageText, 0, fullItem, 1);
+                
             }
     
             await message.Channel.SendMessageAsync(messageText);
         }
     }
-    private async Task<string> GetDataFromWebApi(string apiUrl)
+
+    public string CompleteTree(string message, int tabs, TreeItemViewModel model, int depth)
     {
-        using var httpClient = new HttpClient();
-        try
-        {
-            var response = await httpClient.GetAsync(apiUrl);
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                return content;
-            }
-            else
-            {
-                return "Произошла ошибка при получении данных из Web Api";
-            }
-        }
-        catch (Exception e)
-        {
-            return $"Ошибка: {e.Message}";
-        }
+        var msg = string.Empty;
+        for (var i = 0; i < tabs; i++)
+            msg += "\t";
+
+        msg += $"|-{model.Name} - {model.Description} (Count: {model.Count})\n";
+
+        // if (depth<=0)
+        //     return msg;
+
+        foreach (var component in model.Components)
+            msg += CompleteTree(msg, tabs + 1, component, depth - 1);
+        
+        return msg;
     }
+
 }

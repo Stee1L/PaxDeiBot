@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PaxDeiBotApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+47e30683e7b343b36cce5d5fb5ffe448c36ca126")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+03c8654d0b15e0b3f1322afccbc4b0780ecc74ad")]
 [assembly: System.Reflection.AssemblyProductAttribute("PaxDeiBotApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PaxDeiBotApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

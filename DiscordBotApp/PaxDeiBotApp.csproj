@@ -17,4 +17,10 @@
       <ProjectReference Include="..\PaxDeiBot.APIClient\PaxDeiBot.APIClient.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="appsettings.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
