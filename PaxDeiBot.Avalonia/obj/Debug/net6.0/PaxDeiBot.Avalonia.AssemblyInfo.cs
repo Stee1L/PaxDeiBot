@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PaxDeiBot.Avalonia")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f77c700b8bd98d0286c51ba3b9a35aff71f9c330")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+47e30683e7b343b36cce5d5fb5ffe448c36ca126")]
 [assembly: System.Reflection.AssemblyProductAttribute("PaxDeiBot.Avalonia")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PaxDeiBot.Avalonia")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

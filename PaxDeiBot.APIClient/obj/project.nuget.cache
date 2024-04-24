@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "xyswfhOMAPgbUcItkDwI1fL2UtSXWzLz7c59uZ508Rz/OVb52EdZm1L5IZsJs291hSYNSQ3wUanHCPxrELgclA==",
+  "success": true,
+  "projectFilePath": "D:\\Repository\\PaxDeiBot2\\PaxDeiBot.APIClient\\PaxDeiBot.APIClient.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\malai\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

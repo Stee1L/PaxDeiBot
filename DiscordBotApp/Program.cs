@@ -1,8 +1,16 @@
-﻿// See https://aka.ms/new-console-template for more information
-
+﻿using Microsoft.Extensions.Configuration;
 using PaxDeiBotApp;
 
-var bot = new DiscordBot();
-bot.MainAsync()
-    .GetAwaiter()
-    .GetResult();
+public static class Program
+{
+    public static async Task Main(string[] args)
+    {
+        var settings = new ConfigurationBuilder()
+            .AddJsonFile(Path.Combine(Path.GetDirectoryName(typeof(Program).Assembly.Location), "appsettings.json"))
+            .Build();
+
+        var bot = new DiscordBot(settings);
+
+        await bot.MainAsync();
+    }
+}

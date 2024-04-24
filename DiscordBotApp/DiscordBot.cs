@@ -1,13 +1,22 @@
 ﻿using Discord;
 using Discord.WebSocket;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using PaxDeiBot.WebApi.Client;
 using PaxDeiBotApp.Models;
 
 namespace PaxDeiBotApp;
 
 public class DiscordBot
 {
+    private readonly PaxDeiBotClient _apiClient;
     private DiscordSocketClient _client;
+
+    public DiscordBot(IConfiguration config)
+    {
+        _apiClient = new PaxDeiBotClient(config["ApiURL"], new HttpClient());
+    }
+
     const string token = "MTIzMjAxNTQ2NzM3MjA4OTQzNw.GoD7n8.OsUpdoBcaAeWDw2vzL3EwjYfUYa5kEJfCZj9Co";
     public async Task MainAsync()
     {
@@ -37,15 +46,15 @@ public class DiscordBot
         {
             var itemName = message.Content.Replace("!getData ", "");
             if (string.IsNullOrEmpty(itemName)) await message.Channel.SendMessageAsync("Укажите название предмета после команды !getData");
-            var shortItemApi = "http://localhost:5000/api/v1/Items/components";
-            var shortItemData = await GetDataFromWebApi(shortItemApi);
-            if (string.IsNullOrEmpty(shortItemData))
-            {
-                await message.Channel.SendMessageAsync("Не удалось получить список предметов!");
-                return;
-            }
+            // var shortItemApi = "http://localhost:5000/api/v1/Items/components";
+            // var shortItemData = _apiClient.ComponentsAsync();
+            // if (string.IsNullOrEmpty(shortItemData))
+            // {
+            //     await message.Channel.SendMessageAsync("Не удалось получить список предметов!");
+            //     return;
+            // }
     
-            var items = JsonConvert.DeserializeObject<List<ItemShortModel>>(shortItemData);
+            var items = await _apiClient.ComponentsAsync();
             var selectedItem =
                 items.FirstOrDefault(item => item.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
     
@@ -55,16 +64,16 @@ public class DiscordBot
                 return;
             }
     
-            var fullItemApi = $"http://localhost:5000/api/v1/Items/{selectedItem.Id}";
-            var fullItemData = await GetDataFromWebApi(fullItemApi);
-    
-            if (string.IsNullOrEmpty(fullItemData))
-            {
-                await message.Channel.SendMessageAsync($"Не удалось получить данные по предмету {itemName}");
-                return;
-            }
+            // var fullItemApi = $"http://localhost:5000/api/v1/Items/{selectedItem.Id}";
+            // var fullItemData = await GetDataFromWebApi(fullItemApi);
+            //
+            // if (string.IsNullOrEmpty(fullItemData))
+            // {
+            //     await message.Channel.SendMessageAsync($"Не удалось получить данные по предмету {itemName}");
+            //     return;
+            // }
             
-            var fullItem = JsonConvert.DeserializeObject<ItemFullModel>(fullItemData) ?? throw new Exception("Data not found");
+            var fullItem = await _apiClient.ItemsGETAsync(selectedItem.Id);
             
             var messageText = $"**{fullItem.Name}**\n" + 
                                     $"{fullItem.Description}\n";
