@@ -1,9 +1,11 @@
-﻿using Discord;
+﻿using System;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Discord;
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using PaxDeiBot.WebApi.Client;
-using PaxDeiBotApp.Models;
 
 namespace PaxDeiBotApp;
 
@@ -17,7 +19,7 @@ public class DiscordBot
         _apiClient = new PaxDeiBotClient(config["ApiURL"], new HttpClient());
     }
 
-    const string token = "MTIzMjAxNTQ2NzM3MjA4OTQzNw.Gsw5gV.IoZQuNAdifhOJ86rnDHHWTm3an3cfDfkUD1Y8w";
+    const string token = "MTIzMjAxNTQ2NzM3MjA4OTQzNw.G3g2W6.iDE12bmize0azVo3j_9TKv1ZP0tbB96iMMFw84";
     public async Task MainAsync()
     {
         var config = new DiscordSocketConfig
@@ -82,7 +84,7 @@ public class DiscordBot
     
             if (fullItem.Components.Any())
             {
-                messageText += "Components:\n" + CompleteTree(messageText, 0, fullItem, 1);
+                messageText += "Components:\n" + CompleteTree(0, fullItem, 1);
                 
             }
     
@@ -90,19 +92,19 @@ public class DiscordBot
         }
     }
 
-    public string CompleteTree(string message, int tabs, TreeItemViewModel model, int depth)
+    public string CompleteTree(int tabs, TreeItemViewModel model, int depth)
     {
         var msg = string.Empty;
         for (var i = 0; i < tabs; i++)
             msg += "\t";
 
-        msg += $"|-{model.Name} - {model.Description} (Count: {model.Count})\n";
+        msg += $"\u255a[{model.Name}]({model.Id}) - {model.Description} (Count: {model.Count})\n";
 
         // if (depth<=0)
         //     return msg;
 
         foreach (var component in model.Components)
-            msg += CompleteTree(msg, tabs + 1, component, depth - 1);
+            msg += CompleteTree(tabs + 1, component, depth - 1);
         
         return msg;
     }
