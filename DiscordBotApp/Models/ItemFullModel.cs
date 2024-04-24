@@ -1,4 +1,6 @@
-﻿namespace PaxDeiBotApp.Models;
+﻿using System.Collections.Generic;
+
+namespace PaxDeiBotApp.Models;
 
 public class ItemFullModel
 {
