@@ -8,7 +8,7 @@ public static class DiscordUserExtensions
 {
     public static bool IsAdmin(this SocketUser user, IConfiguration cfg)
     {
-        var admins = JsonConvert.DeserializeObject<List<string>>(cfg["Admins"]);
+        var admins = cfg.GetSection("Admins").Get<List<string>>();
         return admins.Any(f => f == user.Username);
     }
 

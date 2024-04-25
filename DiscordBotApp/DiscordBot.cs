@@ -64,6 +64,25 @@ public class DiscordBot
             "!getTreeData" => GetTreeDataHandler(message.Channel, msg),
             "!getPrimalData" => GetPrimalDataHandler(message.Channel, msg),
             "!findByName" => FindByNameHandler(message.Channel, msg),
+            "!help" => message.Channel.SendMessageAsync("Существующие команды:\n" +
+                                                        "!addItem - Добавить предмет\n" +
+                                                        "!addItem [Название предмета] [Описание предмета]\n" +
+                                                        "!removeItem - Удалить предмет. Удаляется по идентификатору в системе.\n" +
+                                                        "!removeItem [itemId]\n" +
+                                                        "!addChild - Добавить в рецепт крафта предмета другой по идентификатору.\n" +
+                                                        "!addChild [parentId] [childId] [количество]\n" +
+                                                        "!removeChild - Удалить зависимость предметов\n" +
+                                                        "!removeChild [itemId]\n" +
+                                                        "!getData - Получить информацию о предмете, информацию о его сборке, а так же предметы, в крафтах которого он используется\n" +
+                                                        "!getData [itemId]\n" +
+                                                        "!getTreeData - Получить полный перечень ресурсов для крафта в древовидной форме.\n" +
+                                                        "!getTreeData [itemId]\n" +
+                                                        "!getPrimalData - Получить список ресурсов, необходимых для этого предмета. Применение:\n" +
+                                                        "!getPrimalData [itemId]\n" +
+                                                        "!findByName - поиск предмета по имени.\n" +
+                                                        "!findByName [Название предмета]" +
+                                                        "!help - путеводитель.\n" +
+                                                        "**Получить информацию может каждый, но изменять её может только администратор системы!**"),
             _ => Task.CompletedTask
         };
     }
@@ -172,13 +191,21 @@ public class DiscordBot
             return;
         }
 
-        var id = await _apiClient.ItemsPOSTAsync(new ItemInputModel()
+        try
         {
-            Name = msg[1],
-            Description = msg[2]
-        });
+            var id = await _apiClient.ItemsPOSTAsync(new ItemInputModel()
+            {
+                Name = msg[1],
+                Description = msg[2]
+            });
 
-        await channel.SendMessageAsync($"Предмет с названием **{msg[1]}** добавлен, его ID - \"{id:N}.\"");
+            await channel.SendMessageAsync($"Предмет с названием **{msg[1]}** добавлен, его ID - \"{id:N}\".");
+        }
+        catch (Exception e)
+        {
+            await channel.SendMessageAsync("Произошла ошибка во время исполнения запроса к серверу:\n" +
+                                           $"{e.Message}");
+        }
     }
 
     private async Task GetPrimalDataHandler(ISocketMessageChannel messageChannel, string[] msg)
